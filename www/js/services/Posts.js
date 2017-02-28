@@ -34,9 +34,11 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
         getUserPosts: function(userId)
         {
             return $q(function(resolve, reject){
-
+                $http.get(appConfig.apiAddr + "posts/" + userId).then(function(response){
+                    resolve(response.data);
+                });
                 // execute the search and return results
-                resolve(posts); // placeholder
+                // resolve(posts); // placeholder
             });
         },
         new: function(imageUri, caption)

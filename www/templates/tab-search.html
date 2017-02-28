@@ -19,11 +19,11 @@
         </div>
         <div ng-if="tabs.people">
             <div class="list">
-                <a class="item item-avatar" href="#" ng-repeat="p in searchResults.people">
+                <div class="item item-avatar" ng-repeat="p in searchResults.people" ng-click="showPosts(p.id)">
                 <img src="{{ p.profileImageSmall }}">
                 <h2>{{ p.username }}</h2>
                 <p>{{ p.fullName }}</p>
-                </a>
+                </div>
 
             </div>
         </div>

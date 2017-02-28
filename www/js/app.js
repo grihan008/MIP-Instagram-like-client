@@ -1,6 +1,7 @@
 
 angular.module('someklone.config', []).constant('appConfig', {
-        "apiAddr": "https://arcane-harbor-29440.herokuapp.com/"
+        // "apiAddr": "https://arcane-harbor-29440.herokuapp.com/"
+        "apiAddr": "http://localhost:3000/"
 });
 
 // Declare the services module
@@ -9,7 +10,7 @@ angular.module('someklone.services', ['someklone.config']);
 // Declare the actual application module
 angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.services', 'ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, Users, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -23,6 +24,10 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
       StatusBar.styleDefault();
     }
   });
+
+   $rootScope.$on('$stateChangeError', function(e, toState, toParams, fromState, fromParams, error){
+      $state.go("login");
+   });
 })
 
 
@@ -40,7 +45,11 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    resolve: { islogged: function(Users){
+        return Users.isLogged();
+      }
+    }
   })
 
   // Each tab has its own nav history stack:
@@ -62,7 +71,10 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
           templateUrl: 'templates/tab-browse.html',
           controller: 'BrowseCtrl'
       }
-    }
+    },
+    params: {
+        id: null
+      }
   })
 
   .state('tab.browse-detail', {
@@ -108,7 +120,11 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
   .state('post', {
     url: '/post',
     templateUrl: 'templates/post.html',
-    controller: 'PostCtrl'
+    controller: 'PostCtrl',
+    resolve: { islogged: function(Users){
+        return Users.isLogged();
+      }
+    }
   })
 
   .state('post-confirm', {
@@ -117,16 +133,36 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
     controller: 'PostConfirmCtrl',
     params: {
         imageUri: null
+    },
+    resolve: { islogged: function(Users){
+        return Users.isLogged();
+      }
     }
+  })
+
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
+
+  .state('signup', {
+    url: '/signup',
+    templateUrl: 'templates/signup.html',
+    controller: 'SignupCtrl'
   })
 
   .state('comment', {
     url: '/comment/:postId',
     templateUrl: 'templates/comment-post.html',
-    controller: 'PostCommentCtrl'
+    controller: 'PostCommentCtrl',
+    resolve: { islogged: function(Users){
+        return Users.isLogged();
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/home');
+  $urlRouterProvider.otherwise('/login');
 
 });
