@@ -118,6 +118,22 @@ angular.module('someklone.services').factory('Users', function($q, $http, appCon
         getActiveUserActivity: function()
         {
             return activeUser.activity;
+        },
+        addFollow: function(id, followid){
+            return $q(function(resolve, reject){
+            $http.post(appConfig.apiAddr + "addFollow", {id: id, followid: followid}).then(function(result){
+              if(result.status == 200)
+              {
+                resolve();
+              }
+              else
+              {
+                reject();
+              }
+            }).catch(function(){
+              reject();
+            });
+          });
         }
 
     };

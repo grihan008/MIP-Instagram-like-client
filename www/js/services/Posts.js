@@ -1,14 +1,14 @@
 
-angular.module('someklone.services').factory('Posts', function($q, $http, appConfig) {
+angular.module('someklone.services').factory('Posts', function($q, $http, appConfig, $cordovaFileTransfer) {
 
     var posts = [];
 
     return {
         // posts from myself and the from the users i am following
-        following: function()
+        following: function(id)
         {
             return $q(function(resolve, reject){
-                $http.get(appConfig.apiAddr + "posts/relevant").then(function(response){
+                $http.get(appConfig.apiAddr + "posts/relevant/"+id).then(function(response){
                     posts = posts.concat(response.data);
                     resolve(posts);
                 },function(err){
@@ -41,28 +41,40 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
                 // resolve(posts); // placeholder
             });
         },
+        getPost: function(postid){
+            return $q(function(resolve, reject){
+                $http.get(appConfig.apiAddr + "post/" + postid).then(function(response){
+                    resolve(response.data);
+                });
+            });
+        },
         new: function(imageUri, caption)
         {
             return $q(function(resolve, reject) {
-                var newPost = {
-                    id: posts.length,
-                    user: {
-                        id: 1,
-                        username: "dtrump",
-                        profileImageSmall: "http://core0.staticworld.net/images/article/2015/11/111915blog-donald-trump-100629006-primary.idge.jpg"
-                    },
-                    image: imageUri,
-                    imageThumbnail: imageUri, // no special thumbnail yet, but there will be when the image is eventually uploaded to server
-                    likes: 0,
-                    userLike: false,
-                    caption: caption,
-                    tags: [],  // tag identification logic not yet implemented
-                    comments: []
-                };
+                // var newPost = {
+                //     id: posts.length,
+                //     user: {
+                //         id: 1,
+                //         username: "dtrump",
+                //         profileImageSmall: "http://core0.staticworld.net/images/article/2015/11/111915blog-donald-trump-100629006-primary.idge.jpg"
+                //     },
+                //     image: imageUri,
+                //     imageThumbnail: imageUri, // no special thumbnail yet, but there will be when the image is eventually uploaded to server
+                //     likes: 0,
+                //     userLike: false,
+                //     caption: caption,
+                //     tags: [],  // tag identification logic not yet implemented
+                //     comments: []
+                // };
 
-                posts.unshift(newPost);
+                // posts.unshift(newPost);
+            //     var options = new FileUploadOptions();
+            //     options.fileKey = "image";
 
-                resolve();
+            //     $cordovaFileTransfer.upload(appConfig.apiAddr + "upload", $scope.picture, options).then(function(result) {
+
+            //     resolve(result);
+            // });
             });
         },
         toggleLike: function(post)

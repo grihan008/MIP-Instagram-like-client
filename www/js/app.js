@@ -1,7 +1,7 @@
 
 angular.module('someklone.config', []).constant('appConfig', {
-        // "apiAddr": "https://arcane-harbor-29440.herokuapp.com/"
-        "apiAddr": "http://localhost:3000/"
+        "apiAddr": "https://arcane-harbor-29440.herokuapp.com/"
+        // "apiAddr": "http://localhost:3000/"
 });
 
 // Declare the services module
@@ -84,7 +84,10 @@ angular.module('someklone', ['ionic', 'someklone.controllers', 'someklone.servic
           templateUrl: 'templates/browse-detail.html',
           controller: 'BrowseDetailCtrl'
       }
-    }
+    },
+    params: {
+        id: null
+      }
   })
 
   .state('tab.browse-search', {
