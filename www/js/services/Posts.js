@@ -48,7 +48,7 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
                 });
             });
         },
-        new: function(imageUri, caption)
+        new: function(imageUri, caption, id)
         {
             return $q(function(resolve, reject) {
                 // var newPost = {
@@ -75,7 +75,24 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
 
             //     resolve(result);
             // });
+                $http.post(appConfig.apiAddr + "addPost", {imageUri: imageUri, caption:caption, id:id}).then(function(response){
+                    resolve();
+                });
             });
+          //   return $q(function(resolve, reject){
+          //   $http.post(appConfig.apiAddr + "addPost", {imageUri: imageUri, caption:caption, id:id}).then(function(result){
+          //     if(result.status == 200)
+          //     {
+          //       resolve();
+          //     }
+          //     else
+          //     {
+          //       reject();
+          //     }
+          //   }).catch(function(){
+          //     reject();
+          //   });
+          // });
         },
         toggleLike: function(post)
         {

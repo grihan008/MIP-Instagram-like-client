@@ -261,7 +261,7 @@ angular.module('someklone.controllers', [])
 
 })
 
-.controller('PostConfirmCtrl', function($scope, $state, $stateParams, $ionicHistory, Posts, $ionicPlatform, $cordovaCamera){
+.controller('PostConfirmCtrl', function($scope, $state, $stateParams, $ionicHistory, Posts, Users, $ionicPlatform, $cordovaCamera){
     $scope.post = {
         imageUri: $stateParams.imageUri,
         caption: ""
@@ -277,23 +277,23 @@ angular.module('someklone.controllers', [])
 
     $scope.sharePost = function()
     {
-        var options = new FileUploadOptions();
-        options.fileKey = "image";
+        // var options = new FileUploadOptions();
+        // options.fileKey = "image";
 
-        $cordovaFileTransfer.upload(appConfig.apiAddr + 'upload', $scope.post.imageUri, options).then(function(result) {
-            console.log("File upload complete");
-            console.log(result);
-            // $scope.post.imageUri=result.url;
-            $scope.uploadResults = "Upload completed successfully"            
-        }, function(err) {
-            console.log("File upload error");
-            console.log(err);
-            $scope.uploadResults = "Upload failed"                           
-        }, function (progress) {
-            // constant progress updates
-            console.log(progress);
-        });
-        Posts.new($scope.post.imageUri, $scope.post.caption).then(function(){
+        // $cordovaFileTransfer.upload(appConfig.apiAddr + 'upload', $scope.post.imageUri, options).then(function(result) {
+        //     console.log("File upload complete");
+        //     console.log(result);
+        //     // $scope.post.imageUri=result.url;
+        //     $scope.uploadResults = "Upload completed successfully"            
+        // }, function(err) {
+        //     console.log("File upload error");
+        //     console.log(err);
+        //     $scope.uploadResults = "Upload failed"                           
+        // }, function (progress) {
+        //     // constant progress updates
+        //     console.log(progress);
+        // });
+        Posts.new($scope.post.imageUri, $scope.post.caption, Users.getActiveUser().id).then(function(){
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
