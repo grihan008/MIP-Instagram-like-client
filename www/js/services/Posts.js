@@ -70,15 +70,15 @@ angular.module('someklone.services').factory('Posts', function($q, $http, appCon
                 // posts.unshift(newPost);
                 var options = new FileUploadOptions();
                 options.fileKey = "image";
+                options = {};
 
-                $cordovaFileTransfer.upload(appConfig.apiAddr + "upload", $scope.picture, options).then(function(result) {
-
-                resolve(result);
+                $cordovaFileTransfer.upload(appConfig.apiAddr + "upload", imageUri, options).then(function(result) {
+                    $http.post(appConfig.apiAddr + "addPost", {imageUri: result.url, caption:caption, id:id}).then(function(response){
+                        resolve();
+                    });
              });
-            //     $http.post(appConfig.apiAddr + "addPost", {imageUri: imageUri, caption:caption, id:id}).then(function(response){
-            //         resolve();
-            //     });
-            // });
+
+             });
           //   return $q(function(resolve, reject){
           //   $http.post(appConfig.apiAddr + "addPost", {imageUri: imageUri, caption:caption, id:id}).then(function(result){
           //     if(result.status == 200)

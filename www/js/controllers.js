@@ -264,7 +264,7 @@ angular.module('someklone.controllers', [])
 .controller('PostConfirmCtrl', function($scope, $state, $stateParams, $ionicHistory, Posts, Users, $ionicPlatform, $cordovaCamera){
     $scope.post = {
         imageUri: $stateParams.imageUri,
-        caption: ""
+        caption: "test"
     };
 
     $scope.goBack = function()
